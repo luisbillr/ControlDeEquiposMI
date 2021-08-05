@@ -44,7 +44,7 @@
             @Html.DisplayName("Equipo")
         </dt>
         <dd class = "col-sm-10">
-             @Model.Equipos.Where(m=>m.Id == Model.IdEquipo).FirstOrDefault().Nombre
+             @Model.Equipos.Where(m=>m.Id == Model.EquipoId).FirstOrDefault().Nombre
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayName("Estado")

@@ -33,13 +33,11 @@ namespace ControlDeEquiposMI.Models
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
-            //modelBuilder.Entity<EstadoJugador>().HasKey(b => b.Id);
-            //modelBuilder.Entity<EstadoJugador>().Property(b => b.Id).ValueGeneratedOnAdd();
-            //modelBuilder.Entity<EstadoJugador>().HasData(
-            //    new EstadoJugador {Id=1, Nombre = "Activo", FechaCreacion = DateTime.Now.ToLocalTime() },
-            //    new EstadoJugador {Id=2,  Nombre = "Cancelado", FechaCreacion = DateTime.Now.ToLocalTime() },
-            //    new EstadoJugador {Id=3, Nombre = "AgenteLibre", FechaCreacion = DateTime.Now.ToLocalTime() }
-            //);
+            modelBuilder.Entity<EstadoJugador>().HasData(
+                new EstadoJugador { Id = 1, Nombre = "Activo", FechaCreacion = DateTime.Now.ToLocalTime() },
+                new EstadoJugador { Id = 2, Nombre = "Cancelado", FechaCreacion = DateTime.Now.ToLocalTime() },
+                new EstadoJugador { Id = 3, Nombre = "AgenteLibre", FechaCreacion = DateTime.Now.ToLocalTime() }
+            );
             modelBuilder.Entity<Jugador>().HasKey(b=>b.Id);
             modelBuilder.Entity<Jugador>().Property(b => b.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Jugador>().Property(b => b.Nombre).IsRequired();

@@ -28,7 +28,7 @@
                 @Html.DisplayNameFor(model => model.Direccion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdEquipo)
+                @Html.DisplayNameFor(model => model.EquipoId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EstadoId)
@@ -55,7 +55,7 @@
                 @Html.DisplayFor(modelItem => item.Direccion)
             </td>
             <td>
-                @item.Equipos.Where(m => m.Id == item.IdEquipo).FirstOrDefault().Nombre
+                @item.Equipos.Where(m => m.Id == item.EquipoId).FirstOrDefault().Nombre
             </td>
             <td>
                 @item.EstadosJugadores.Where(m => m.Id == item.EstadoId).FirstOrDefault().Nombre
