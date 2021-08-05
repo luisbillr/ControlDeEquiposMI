@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlDeEquiposMI.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20210805063725_AddModels")]
-    partial class AddModels
+    [Migration("20210805172652_CreateModel")]
+    partial class CreateModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,14 +56,8 @@ namespace ControlDeEquiposMI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("EquipoId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("JugadorId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -71,11 +65,27 @@ namespace ControlDeEquiposMI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EquipoId");
-
-                    b.HasIndex("JugadorId");
-
                     b.ToTable("EstadoJugador");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FechaCreacion = new DateTime(2021, 8, 5, 13, 26, 51, 988, DateTimeKind.Local).AddTicks(5034),
+                            Nombre = "Activo"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FechaCreacion = new DateTime(2021, 8, 5, 13, 26, 51, 988, DateTimeKind.Local).AddTicks(5572),
+                            Nombre = "Cancelado"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FechaCreacion = new DateTime(2021, 8, 5, 13, 26, 51, 988, DateTimeKind.Local).AddTicks(5579),
+                            Nombre = "AgenteLibre"
+                        });
                 });
 
             modelBuilder.Entity("ControlDeEquiposMI.Models.Jugador", b =>
@@ -112,57 +122,6 @@ namespace ControlDeEquiposMI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Jugador");
-                });
-
-            modelBuilder.Entity("EquipoJugador", b =>
-                {
-                    b.Property<int>("EquiposId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("JugadoresId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EquiposId", "JugadoresId");
-
-                    b.HasIndex("JugadoresId");
-
-                    b.ToTable("EquipoJugador");
-                });
-
-            modelBuilder.Entity("ControlDeEquiposMI.Models.EstadoJugador", b =>
-                {
-                    b.HasOne("ControlDeEquiposMI.Models.Equipo", null)
-                        .WithMany("EstadosJugadores")
-                        .HasForeignKey("EquipoId");
-
-                    b.HasOne("ControlDeEquiposMI.Models.Jugador", null)
-                        .WithMany("EstadosJugadores")
-                        .HasForeignKey("JugadorId");
-                });
-
-            modelBuilder.Entity("EquipoJugador", b =>
-                {
-                    b.HasOne("ControlDeEquiposMI.Models.Equipo", null)
-                        .WithMany()
-                        .HasForeignKey("EquiposId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ControlDeEquiposMI.Models.Jugador", null)
-                        .WithMany()
-                        .HasForeignKey("JugadoresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ControlDeEquiposMI.Models.Equipo", b =>
-                {
-                    b.Navigation("EstadosJugadores");
-                });
-
-            modelBuilder.Entity("ControlDeEquiposMI.Models.Jugador", b =>
-                {
-                    b.Navigation("EstadosJugadores");
                 });
 #pragma warning restore 612, 618
         }

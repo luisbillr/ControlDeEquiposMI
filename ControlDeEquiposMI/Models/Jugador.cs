@@ -26,9 +26,13 @@ namespace ControlDeEquiposMI.Models
         [Required]
         [Range(1, int.MaxValue)]
         public int EstadoId { get; set; }
-
+        [NotMapped]
+        public Equipo Equipo { get; set; } = new Equipo();
+        [NotMapped]
+        public EstadoJugador EstadoJugador { get; set; } = new EstadoJugador();
+        [NotMapped]
         public List<Equipo> Equipos { get; set; } = new List<Equipo>();
-    
+        [NotMapped]
         public List<EstadoJugador> EstadosJugadores { get; set; } = new List<EstadoJugador>();
     }
 }

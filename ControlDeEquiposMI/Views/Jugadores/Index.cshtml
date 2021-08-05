@@ -3,12 +3,28 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+<style>
+    .margenBusqueda {
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+</style>
 <h1>Listado De Los Jugadores</h1>
 
 <p>
     <a asp-action="Create" class="btn btn-primary">Agregar Jugador</a>
 </p>
+<div class="row" style="display:flex; justify-content:flex-end;">
+    <form asp-action="Index" class="form-inline">
+        <select name="EstadoId" class="form-control margenBusqueda">
+            @foreach (var item in ViewData["EstadosJugadores"] as List<ControlDeEquiposMI.Models.EstadoJugador>)
+            {
+                <option value="@item.Id">@item.Nombre</option>
+            }
+        </select>
+        <input type="submit" value="Ver" class="btn btn-primary margenBusqueda" /> 
+    </form>
+</div>
 <table class="table table-hover ">
     <thead class="thead-dark">
         <tr>
@@ -55,10 +71,10 @@
                 @Html.DisplayFor(modelItem => item.Direccion)
             </td>
             <td>
-                @item.Equipos.Where(m => m.Id == item.EquipoId).FirstOrDefault().Nombre
+                @Html.DisplayFor(modelItem => item.Equipo.Nombre)
             </td>
             <td>
-                @item.EstadosJugadores.Where(m => m.Id == item.EstadoId).FirstOrDefault().Nombre
+                @Html.DisplayFor(modelItem => item.EstadoJugador.Nombre)
             </td>
             <td>
                 <a class="btn btn-outline-info" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |

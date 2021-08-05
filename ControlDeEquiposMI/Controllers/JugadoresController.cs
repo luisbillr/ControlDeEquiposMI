@@ -19,16 +19,18 @@ namespace ControlDeEquiposMI.Controllers
         }
 
         // GET: Jugadors
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int EstadoId = 1)
         {
-            var equipos = _context.Equipo.ToList();
             List<Jugador> jugadores = new List<Jugador>();
+            var estadosjugadores = _context.EstadoJugador.ToList(); 
             jugadores = _context.Jugador.ToList();
             foreach (var item in jugadores)
             {
-              
+                item.Equipo = _context.Equipo.Single(m => m.Id == item.EquipoId);
+                item.EstadoJugador = estadosjugadores.Single(m => m.Id == item.EstadoId);
             }
-            return View(jugadores );
+            ViewData["EstadosJugadores"] = estadosjugadores;
+            return View(jugadores.Where(m=>m.EstadoId == EstadoId) );
         }
 
         // GET: Jugadors/Details/5
@@ -64,9 +66,9 @@ namespace ControlDeEquiposMI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,FechaNacimiento,Pasaporte,Direccion,IdEquipo,EstadoId")] Jugador jugador)
+        public async Task<IActionResult> Create(Jugador jugador)
         {
-            if (ModelState.IsValid)
+            if (jugador.Nombre != "" && jugador.Apellido != "" && jugador.Pasaporte != "")
             {
                 _context.Add(jugador);
                 await _context.SaveChangesAsync();
