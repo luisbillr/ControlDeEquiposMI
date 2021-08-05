@@ -9,22 +9,22 @@ using ControlDeEquiposMI.Models;
 
 namespace ControlDeEquiposMI.Controllers
 {
-    public class JugadorsController : Controller
+    public class EquiposController : Controller
     {
         private readonly ApplicationDBContext _context;
 
-        public JugadorsController(ApplicationDBContext context)
+        public EquiposController(ApplicationDBContext context)
         {
             _context = context;
         }
 
-        // GET: Jugadors
+        // GET: Equipos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Jugador.ToListAsync());
+            return View(await _context.Equipo.ToListAsync());
         }
 
-        // GET: Jugadors/Details/5
+        // GET: Equipos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,40 @@ namespace ControlDeEquiposMI.Controllers
                 return NotFound();
             }
 
-            var jugador = await _context.Jugador
+            var equipo = await _context.Equipo
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (jugador == null)
+            if (equipo == null)
             {
                 return NotFound();
             }
-
-            return View(jugador);
+            equipo.Jugadores = _context.Jugador.Where(m => m.EquipoId == equipo.Id).ToList();
+            equipo.EstadosJugadores = _context.EstadoJugador.ToList();
+            return View(equipo);
         }
 
-        // GET: Jugadors/Create
+        // GET: Equipos/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Jugadors/Create
+        // POST: Equipos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,FechaNacimiento,Pasaporte,Direccion,IdEquipo,EstadoId")] Jugador jugador)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Pais,Estado,FechaCreacion")] Equipo equipo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(jugador);
+                _context.Add(equipo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(jugador);
+            return View(equipo);
         }
 
-        // GET: Jugadors/Edit/5
+        // GET: Equipos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +73,22 @@ namespace ControlDeEquiposMI.Controllers
                 return NotFound();
             }
 
-            var jugador = await _context.Jugador.FindAsync(id);
-            if (jugador == null)
+            var equipo = await _context.Equipo.FindAsync(id);
+            if (equipo == null)
             {
                 return NotFound();
             }
-            return View(jugador);
+            return View(equipo);
         }
 
-        // POST: Jugadors/Edit/5
+        // POST: Equipos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,FechaNacimiento,Pasaporte,Direccion,IdEquipo,EstadoId")] Jugador jugador)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Pais,Estado,FechaCreacion")] Equipo equipo)
         {
-            if (id != jugador.Id)
+            if (id != equipo.Id)
             {
                 return NotFound();
             }
@@ -96,12 +97,12 @@ namespace ControlDeEquiposMI.Controllers
             {
                 try
                 {
-                    _context.Update(jugador);
+                    _context.Update(equipo);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!JugadorExists(jugador.Id))
+                    if (!EquipoExists(equipo.Id))
                     {
                         return NotFound();
                     }
@@ -112,10 +113,10 @@ namespace ControlDeEquiposMI.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(jugador);
+            return View(equipo);
         }
 
-        // GET: Jugadors/Delete/5
+        // GET: Equipos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +124,30 @@ namespace ControlDeEquiposMI.Controllers
                 return NotFound();
             }
 
-            var jugador = await _context.Jugador
+            var equipo = await _context.Equipo
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (jugador == null)
+            if (equipo == null)
             {
                 return NotFound();
             }
 
-            return View(jugador);
+            return View(equipo);
         }
 
-        // POST: Jugadors/Delete/5
+        // POST: Equipos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var jugador = await _context.Jugador.FindAsync(id);
-            _context.Jugador.Remove(jugador);
+            var equipo = await _context.Equipo.FindAsync(id);
+            _context.Equipo.Remove(equipo);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool JugadorExists(int id)
+        private bool EquipoExists(int id)
         {
-            return _context.Jugador.Any(e => e.Id == id);
+            return _context.Equipo.Any(e => e.Id == id);
         }
     }
 }

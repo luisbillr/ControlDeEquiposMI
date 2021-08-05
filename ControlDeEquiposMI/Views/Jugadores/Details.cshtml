@@ -41,20 +41,20 @@
             @Html.DisplayFor(model => model.Direccion)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdEquipo)
+            @Html.DisplayName("Equipo")
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdEquipo)
+             @Model.Equipos.Where(m=>m.Id == Model.IdEquipo).FirstOrDefault().Nombre
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EstadoId)
+            @Html.DisplayName("Estado")
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EstadoId)
+            @Model.EstadosJugadores.Where(m=>m.Id == Model.EstadoId).FirstOrDefault().Nombre
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a class="btn btn-dark" asp-action="Index">Back to List</a>
 </div>

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,14 +9,26 @@ namespace ControlDeEquiposMI.Models
 {
     public class Jugador
     {
+        [Key]
         public int Id { get; set; }
+        [Required]
         public string Nombre { get; set; }
+        [Required]
         public string Apellido { get; set; }
-        public DateTime FechaNacimiento { get; set; }
+        [Required]
+        public DateTime FechaNacimiento { get; set; } 
+        [Required]
         public string Pasaporte { get; set; }
         public string Direccion { get; set; }
-        public string IdEquipo { get; set; }
-        public string EstadoId { get; set; }
+        [Required]
+        [Range(1,int.MaxValue)]
+        public int EquipoId { get; set; }
+        [Required]
+        [Range(1, int.MaxValue)]
+        public int EstadoId { get; set; }
 
+        public List<Equipo> Equipos { get; set; } = new List<Equipo>();
+    
+        public List<EstadoJugador> EstadosJugadores { get; set; } = new List<EstadoJugador>();
     }
 }

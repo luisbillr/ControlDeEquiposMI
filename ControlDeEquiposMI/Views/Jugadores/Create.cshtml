@@ -39,24 +39,41 @@
             </div>
             <div class="form-group">
                 <label asp-for="IdEquipo" class="control-label"></label>
-                <input asp-for="IdEquipo" class="form-control" />
+                <select class="form-control" asp-for="IdEquipo">
+                    @if (Model.Equipos == null)
+                    {
+                        <option value="-1">Selecciona Un Item</option>
+                    }
+                    else
+                    {
+                        foreach (var item in Model.Equipos)
+                        {
+                            <option value="@item.Id">@item.Nombre</option>
+                        }
+                    }
+
+                </select>
                 <span asp-validation-for="IdEquipo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EstadoId" class="control-label"></label>
-                <input asp-for="EstadoId" class="form-control" />
+                <select class="form-control" asp-for="EstadoId">
+                    @foreach (var item in Model.EstadosJugadores)
+                    {
+                        <option value="@item.Id">@item.Nombre</option>
+                    }
+                </select>
                 <span asp-validation-for="EstadoId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a class="btn btn-dark" asp-action="Index">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
