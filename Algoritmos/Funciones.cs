@@ -30,5 +30,23 @@ namespace Algoritmos
             };
             return datos;
         }
+        public static object Algoritmo2(int Numero)
+        {
+            List<int> ListaNumeros = new List<int>();
+            object datos = new object();
+            int  a = 0, tmp = 0, b = 0;
+            Console.WriteLine("Introduzca un numero");
+            b = Numero;
+            for (int i = -1; i < 5; i++)
+            {
+                ListaNumeros.Add(a);
+                Console.WriteLine(a);
+                tmp = a + b;
+                a = b;
+                b = tmp;
+               ;
+            }
+            return new { Datos = ListaNumeros };
+        }
     }
 }
